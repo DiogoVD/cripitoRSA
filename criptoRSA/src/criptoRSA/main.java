@@ -18,21 +18,41 @@ public class main {
 		
 		int p,q,n,b,e;
 		p = 7;
-		q = 11;
+		q = 13;
 		e = 3;
 		n = p*q;
+		String msgm;
+		
+		msgm = "diogo";
 		
 		//System.out.print(StringAscii("abcd"));
-		int [] nuuu = gerablocos("1234567893", 5);
+		//int [] nuuu = gerablocos(StringAscii("abcd"), 5);
 		//System.out.print(nuuu[2]);
+		//System.out.print(RSA(gerablocos("1234", 2),n,e));
+		System.out.println(msgm);
+		System.out.print(RSA(gerablocos(StringAscii(msgm), 2),n,e));
 		
 	}
 	
-	private static int RSA(int nblock, int num, int n1, int e1) {
-		int numcod = 0;
+	/*
+	 * numbloco -> array de blocos da frase
+	 */
+	private static String RSA(int[] numbloco, int n, int e) {
+		int i;
+		double auxcalc;
+		String numcod="";
+		
+		for(i=0;i<numbloco.length;i++) {
+			auxcalc = (Math.pow(numbloco[i],e))%(n);
+			//System.out.println(auxcalc);
+			numcod = numcod + (int)auxcalc;
+			//System.out.println(numcod);
+		}
 		
 		return numcod;
 	}
+	
+	
 	/*
 	 * frase -> texto a ser convertido para ascii
 	 */
@@ -44,7 +64,6 @@ public class main {
 		for(i=0;i<frase.length();i++) {
 			num = num + (int)frase.charAt(i) + "";
 		}
-		//return Integer.parseInt(num);
 		return num;
 	}
 	
@@ -63,11 +82,11 @@ public class main {
 			}
 		}
 		numero = new int[nblocos];
-		System.out.println(num +" "+ num.length()+" "+ nblocos);
+		//System.out.println(num +" "+ num.length()+" "+ nblocos);
 		
 		for(i=0;i<nblocos;i++) {
 			numero[i] = Integer.parseInt(num.substring(nalgarismos*i, nalgarismos*i+nalgarismos));
-			System.out.println(numero[i]);
+			//System.out.println(numero[i]);
 		}
 		
 		return numero;
