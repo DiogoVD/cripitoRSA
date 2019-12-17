@@ -23,8 +23,8 @@ public class main {
 		n = p*q;
 		
 		//System.out.print(StringAscii("abcd"));
-		int [] nuuu = gerablocos("123456789", 3);
-		System.out.print(nuuu[1]);
+		int [] nuuu = gerablocos("1234567893", 5);
+		//System.out.print(nuuu[2]);
 		
 	}
 	
@@ -33,7 +33,9 @@ public class main {
 		
 		return numcod;
 	}
-	
+	/*
+	 * frase -> texto a ser convertido para ascii
+	 */
 	private static String StringAscii(String frase) {
 		int i;
 		String num = "";
@@ -46,12 +48,26 @@ public class main {
 		return num;
 	}
 	
+	/*
+	 * num -> numero a ser separado e blocos
+	 * nalgarismos -> numero de algarismos em cada bloco
+	 */
 	private static int[] gerablocos(String num, int nalgarismos) {
-		int numero[] , nblocos,i;
+		int numero[] , nblocos,i,j=0,k;
 		nblocos = num.length()/nalgarismos;
+		j = num.length()%nalgarismos;
+		if (j!=0) {
+			nblocos = nblocos+1;
+			for(k=0;k<nalgarismos-j;k++) {
+				num = "0" + num;
+			}
+		}
 		numero = new int[nblocos];
-		for(i = nblocos;i<nblocos;i--) {
-			numero[i] = Integer.parseInt(num.substring(4*i, 4*i+3));
+		System.out.println(num +" "+ num.length()+" "+ nblocos);
+		
+		for(i=0;i<nblocos;i++) {
+			numero[i] = Integer.parseInt(num.substring(nalgarismos*i, nalgarismos*i+nalgarismos));
+			System.out.println(numero[i]);
 		}
 		
 		return numero;
