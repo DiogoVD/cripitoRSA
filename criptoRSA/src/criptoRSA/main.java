@@ -1,4 +1,5 @@
 package criptoRSA;
+import java.math.*;
 
 public class main {
 
@@ -14,14 +15,37 @@ public class main {
 		 * e -> numero primo escolhido para (melhor escoha num 3)
 		 * p -> numero primo escolhido onde deve ser congruente a 5 MOD(6) = 7
 		 * q -> numero primo escolhido onde deve ser congruente a 5 MOD(6) = 11
+		 * 
+		 * para garantir que os primos terao o inverso
+		 * 3(4k+3)=1 mod(6k+4)
+		 * y.d=1 mod[(p-1).(q-1)]
+		 * 
+		 * no caso escolhido p=5 e q=11
+		 * 6k+4 = (p-1).(q-1)
+		 * 6k+4 = (5-1).(11-1)
+		 * 6k+4 = 4.10
+		 * 6k = 40-4
+		 * k = 36/6
+		 *k = 6
+		 * 
+		 *d = 4k+3
+		 *d = 4.6 + 3
+		 *d = 24+3
+		 *d = 27
+		 * 
 		 */
 		
-		int p,q,n,b,e;
-		p = 7;
-		q = 13;
+		int p,q,n,b,e,d;
+		p = 5;
+		q = 17;
 		e = 3;
 		n = p*q;
+		
+		d = (4*((((p-1)*(q-1))-4)/6))+3;
+		
 		String msgm;
+		
+		int asd[]={17,57,39,61,39};
 		
 		msgm = "diogo";
 		
@@ -29,8 +53,10 @@ public class main {
 		//int [] nuuu = gerablocos(StringAscii("abcd"), 5);
 		//System.out.print(nuuu[2]);
 		//System.out.print(RSA(gerablocos("1234", 2),n,e));
-		System.out.println(msgm);
-		System.out.print(RSA(gerablocos(StringAscii(msgm), 2),n,e));
+		//System.out.println(msgm);
+		System.out.println(RSA(gerablocos(StringAscii(msgm), 2),n,e));
+		
+		System.out.println(RSA(asd,n,d));
 		
 	}
 	
@@ -39,14 +65,13 @@ public class main {
 	 */
 	private static String RSA(int[] numbloco, int n, int e) {
 		int i;
-		double auxcalc;
+		BigInteger auxcalc;
 		String numcod="";
 		
 		for(i=0;i<numbloco.length;i++) {
-			auxcalc = (Math.pow(numbloco[i],e))%(n);
-			//System.out.println(auxcalc);
-			numcod = numcod + (int)auxcalc;
-			//System.out.println(numcod);
+			//Realiza o calculo do valor codificado, BigInteger é utilizado para numeros grandes e modPow calcula a potencia e depois o mod do numero.
+			auxcalc = BigInteger.valueOf (numbloco[i]).modPow (BigInteger.valueOf (e), BigInteger.valueOf (n));
+			numcod = numcod + auxcalc;			
 		}
 		
 		return numcod;
@@ -73,8 +98,10 @@ public class main {
 	 */
 	private static int[] gerablocos(String num, int nalgarismos) {
 		int numero[] , nblocos,i,j=0,k;
+		
 		nblocos = num.length()/nalgarismos;
 		j = num.length()%nalgarismos;
+		
 		if (j!=0) {
 			nblocos = nblocos+1;
 			for(k=0;k<nalgarismos-j;k++) {
@@ -82,11 +109,9 @@ public class main {
 			}
 		}
 		numero = new int[nblocos];
-		//System.out.println(num +" "+ num.length()+" "+ nblocos);
 		
 		for(i=0;i<nblocos;i++) {
 			numero[i] = Integer.parseInt(num.substring(nalgarismos*i, nalgarismos*i+nalgarismos));
-			//System.out.println(numero[i]);
 		}
 		
 		return numero;
